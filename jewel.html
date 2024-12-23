@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewel Moxie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #2b5876, #4e4376);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #d62828;
+        }
+
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .special-message {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .tree-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .tree {
+            width: 200px;
+            height: 300px;
+            margin: 0 auto;
+            background-color: green;
+            position: relative;
+            border-radius: 50%;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+
+        .star {
+            width: 50px;
+            height: 50px;
+            background-color: yellow;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            box-shadow: 0 0 10px 2px yellow;
+            animation: starGlow 1s infinite alternate;
+        }
+
+        .lights {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            width: 100%;
+            height: 50%;
+            transform: translateX(-50%);
+        }
+
+        .light {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            animation: lightGlow 1s infinite alternate;
+        }
+
+        .light:nth-child(1) { left: 10%; animation-delay: 0.2s; }
+        .light:nth-child(2) { left: 20%; animation-delay: 0.4s; }
+        .light:nth-child(3) { left: 30%; animation-delay: 0.6s; }
+        .light:nth-child(4) { left: 40%; animation-delay: 0.8s; }
+        .light:nth-child(5) { left: 50%; animation-delay: 1.0s; }
+        .light:nth-child(6) { left: 60%; animation-delay: 1.2s; }
+        .light:nth-child(7) { left: 70%; animation-delay: 1.4s; }
+        .light:nth-child(8) { left: 80%; animation-delay: 1.6s; }
+        .light:nth-child(9) { left: 90%; animation-delay: 1.8s; }
+        .light:nth-child(10) { left: 100%; animation-delay: 2.0s; }
+        .light:nth-child(11) { left: 110%; animation-delay: 2.2s; }
+        .light:nth-child(12) { left: 120%; animation-delay: 2.4s; }
+
+        @keyframes lightGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes starGlow {
+            0% { box-shadow: 0 0 10px 2px yellow; }
+            100% { box-shadow: 0 0 20px 5px yellow; }
+        }
+
+        .final-message {
+            display: none;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .heart-button {
+    font-size: 2rem;
+    background-color: #f5a623;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+#thank-you-message {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff6347;
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎄 Merry Christmas 🎄</h1>
+        <div id="messages">
+            <p id="message-1" class="message">Thank you for being there for me. ❤️</p>
+            <p id="message-2" class="message hidden">You’re the best friend a girl could ever ask for. 🥰</p>
+            <p id="message-3" class="message hidden">I’m so lucky to have you in my life. 🌟</p>
+            <p id="message-4" class="message hidden">You make everything brighter just by being you. 💖</p>
+            <p id="message-5" class="message hidden">Through thick and thin, you’ve been my anchor. ⚓</p>
+            <p id="message-6" class="message hidden">Your kindness and laughter light up my world. ✨</p>
+            <p id="message-7" class="message hidden">You’ve taught me the true meaning of friendship. 🌈</p>
+            <p id="message-8" class="message hidden">I cherish every moment we’ve shared together. 🕊️</p>
+            <p id="message-9" class="message hidden">Here’s to more adventures and beautiful memories. 🌍</p>
+            <p id="message-10" class="message hidden">You’re my biggest cheerleader and my safe space. 💞</p>
+            <p id="message-11" class="message hidden">I’ll always treasure the bond we share. 🤗</p>
+            <p id="message-12" class="message hidden">Friends like you are rare and priceless. 💎</p>
+            <p id="message-13" class="message hidden">Your unwavering support means the world to me. 🌹</p>
+            <p id="message-14" class="message hidden">You’re a gift I never want to lose. 🎁</p>
+            <p id="message-15" class="message hidden">Merry Christmas and lots of love to you! 🎄</p>
+        </div>
+
+        <button id="next-btn">Next</button>
+        <button id="play-btn" class="hidden">To Jackie:</button>
+        <button id="close-btn" class="hidden">Close</button>
+        <button id="click-btn" class="hidden">Click Me</button>
+
+    <div class="special-message" id="special-message">
+        <p>Hey girlie,</p>
+        <p>I just want to take a moment to say thank you for everything. Honestly, if it weren’t for you, I wouldn’t have made it this far this year. I know it might sound like I’m exaggerating, but trust me, I’m not. The number of times I’ve felt like giving up or wishing everything would just stop is countless. But through it all, I had something that made me push through—something that made me look forward to each new day. It may sound a little awkward, but I’ve realized that what kept me going was the fact that I made a friend who stands out from the rest. You.</p>
+        <p>Sometimes life can feel like it’s just too much to handle, but your presence in my life has been a constant reminder that things aren’t as bleak as they seem. You’ve been a source of support, strength, and encouragement. I could say “thank you” a million times, and it still wouldn’t feel like enough for the way you’ve impacted my life. You’ve shown me what it means to be truly seen, valued, and heard. And that’s a gift I’ll never take for granted.</p>
+        <p>This festive season, I want to take the opportunity to show you just how valuable you are to me. You truly are a jewel—precious and special. And that’s not just according to my understanding, it’s the truth. You’ve been so much more than a friend; you’ve been a lifeline, a reminder that no matter how tough things get, there’s always something worth holding on to. I don’t know how long our friendship will last, but I do know that for the time you’ve been a part of my life, I’ve felt seen in ways I haven’t felt in a long time—almost three-quarters of my existence. That means everything to me.</p>
+        <p>You’ve been the best kind of friend anyone could ask for, and I’m forever grateful for that. You’ve been my support system, my cheerleader, and my constant reminder that life is worth fighting for. I don’t want to take that for granted, ever. Your kindness, your energy, your unwavering belief in me—it’s made all the difference.</p>
+        <p>Now, in the spirit of giving this holiday season, I want to share something with you. I don’t have much to offer you physically, but I took my time to create something that reflects just how impactful you’ve been in my life. You deserve nothing less than to be appreciated, celebrated, and reminded of how special you truly are. You’re that rare spark that lights up every room you walk into, and that makes you extraordinary.</p>
+        <p>I want to wish you a Merry Christmas and a fantastic New Year. Continue being the amazing person that you are. Don’t change for anyone, because you’re already everything anyone could hope for. As we wrap up this year, I thank God for aligning our paths. It’s been a special year, full of ups and downs, but through it all, you’ve been right there by my side. You’ve helped me overcome the challenges and walked with me through the struggles, and for that, I’ll forever be grateful.</p>
+        <p>So here’s to you, my precious friend—thank you for being who you are, and for being in my life. May this festive season bring you as much joy, love, and warmth as you’ve brought into my life. Merry Christmas, and here’s to an even brighter New Year ahead!</p>
+        <p>With all my love and gratitude,</p>
+        <p>Florence</p>
+    </div>
+
+        <div class="tree-container" id="tree-container">
+            <div class="tree">
+                <div class="star"></div>
+                <div class="lights">
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                    <div class="light"></div>
+                </div>
+            </div>
+            <p class="final-message">Hearty Christmas Jackie! 🎄</p>
+        </div>
+
+        <audio id="background-music" loop>
+            <source src="background-music.mp3" type="audio/mp3">
+        </audio>
+
+        <canvas class="snow"></canvas>
+    </div>
+
+    <!-- Add this after your special message container -->
+<div id="thank-you-container" class="hidden">
+    <button id="click-heart-btn" class="heart-button">❤️ Click Me</button>
+    <div id="thank-you-message" class="hidden">
+        <p>Thank You Jackie!</p>
+    </div>
+</div>
+
+
+<script>
+    const messages = document.querySelectorAll(".message");
+const nextButton = document.getElementById("next-btn");
+const playButton = document.getElementById("play-btn");
+const closeButton = document.getElementById("close-btn");
+const clickButton = document.getElementById("click-btn");
+const treeContainer = document.getElementById("tree-container");
+const finalMessage = document.querySelector(".final-message");
+const bgMusic = document.getElementById("background-music");
+
+const thankYouContainer = document.getElementById("thank-you-container");
+const clickHeartBtn = document.getElementById("click-heart-btn");
+const thankYouMessage = document.getElementById("thank-you-message");
+
+let currentMessageIndex = 0;
+
+bgMusic.play();
+
+nextButton.addEventListener("click", () => {
+    if (currentMessageIndex < messages.length - 1) {
+        messages[currentMessageIndex].classList.add("hidden");
+        currentMessageIndex++;
+        messages[currentMessageIndex].classList.remove("hidden");
+
+        if (currentMessageIndex === messages.length - 1) {
+            nextButton.classList.add("hidden");
+            playButton.classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("special-message").style.display = 'block';
+                closeButton.classList.remove("hidden");
+            }, 500);
+        }
+    }
+});
+
+playButton.addEventListener("click", () => {
+    // Add logic here if needed for playButton functionality
+});
+
+closeButton.addEventListener("click", () => {
+    document.getElementById("special-message").style.display = 'none';
+    closeButton.classList.add("hidden");
+    clickButton.classList.remove("hidden");
+});
+
+clickButton.addEventListener("click", () => {
+    treeContainer.style.display = 'block';  // Show tree when clickButton is clicked
+    finalMessage.style.display = 'block';  // Show final message if needed
+    clickButton.classList.add("hidden");  // Hide the click button once clicked
+});
+
+// Show the "Click Me" button after the special message is closed
+setTimeout(() => {
+    thankYouContainer.classList.remove("hidden");
+}, 1500);  // Wait 1.5 seconds after closing the special message
+
+clickHeartBtn.addEventListener("click", () => {
+    thankYouMessage.classList.remove("hidden");
+    clickHeartBtn.classList.add("hidden");
+});
+
+// Snow effect (same as before)
+(function snow() {
+    const canvas = document.querySelector('.snow');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const flakes = [];
+
+    // Snowflake settings
+    const flakesPerFrame = 0.02;
+    const minSpeed = 0.1;
+    const maxSpeed = 0.3;
+
+    function createFlake() {
+        const size = Math.random() * 2 + 0.5;
+        const x = Math.random() * canvas.width;
+        const y = -size;
+        const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
+        flakes.push({ x, y, size, speed });
+    }
+
+    function drawFlakes() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        flakes.forEach(flake => {
+            ctx.beginPath();
+            ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fill();
+            flake.y += flake.speed;
+            if (flake.y > canvas.height) {
+                flake.y = -flake.size;
+            }
+        });
+    }
+
+    function animate() {
+        createFlake();
+        drawFlakes();
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+})();
+
+</script>
+</body>
+</html>
