@@ -189,6 +189,12 @@
         opacity: 1;
     }
 }
+#start-link {
+    display: none;
+}
+#start-link {
+    visibility: hidden;
+}
 
     </style>
 </head>
@@ -270,9 +276,10 @@
             <p class="final-message">Hearty Christmas Jackie! 🎄</p>
         </div>
 
-        <audio id="background-music" loop>
-            <source src="background-song.wav" type="audio">
-        </audio>
+      <audio id="background-music" loop autoplay>
+    <source src="audio/background-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 
         <canvas class="snow"></canvas>
     </div>
@@ -286,68 +293,81 @@
 </div>
 
 
+
+<a href="#" id="start-link">Start Interactive Card</a>
 <script>
     const messages = document.querySelectorAll(".message");
-const nextButton = document.getElementById("next-btn");
-const playButton = document.getElementById("play-btn");
-const closeButton = document.getElementById("close-btn");
-const clickButton = document.getElementById("click-btn");
-const treeContainer = document.getElementById("tree-container");
-const finalMessage = document.querySelector(".final-message");
-const bgMusic = document.getElementById("background-music");
+    const nextButton = document.getElementById("next-btn");
+    const playButton = document.getElementById("play-btn");
+    const closeButton = document.getElementById("close-btn");
+    const clickButton = document.getElementById("click-btn");
+    const treeContainer = document.getElementById("tree-container");
+    const finalMessage = document.querySelector(".final-message");
+    const bgMusic = document.getElementById("background-music");
 
-const thankYouContainer = document.getElementById("thank-you-container");
-const clickHeartBtn = document.getElementById("click-heart-btn");
-const thankYouMessage = document.getElementById("thank-you-message");
+    const thankYouContainer = document.getElementById("thank-you-container");
+    const clickHeartBtn = document.getElementById("click-heart-btn");
+    const thankYouMessage = document.getElementById("thank-you-message");
 
-let currentMessageIndex = 0;
+    let currentMessageIndex = 0;
 
-bgMusic.play();
+    // Play background music when the link is clicked
+    const startLink = document.getElementById("start-link");
+    startLink.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        bgMusic.play()
+            .then(() => {
+                console.log("Background music is playing");
+            })
+            .catch((error) => {
+                console.error("Error playing background music:", error);
+            });
+    });
 
-nextButton.addEventListener("click", () => {
-    if (currentMessageIndex < messages.length - 1) {
-        messages[currentMessageIndex].classList.add("hidden");
-        currentMessageIndex++;
-        messages[currentMessageIndex].classList.remove("hidden");
+    nextButton.addEventListener("click", () => {
+        if (currentMessageIndex < messages.length - 1) {
+            messages[currentMessageIndex].classList.add("hidden");
+            currentMessageIndex++;
+            messages[currentMessageIndex].classList.remove("hidden");
 
-        if (currentMessageIndex === messages.length - 1) {
-            nextButton.classList.add("hidden");
-            playButton.classList.remove("hidden");
-            setTimeout(() => {
-                document.getElementById("special-message").style.display = 'block';
-                closeButton.classList.remove("hidden");
-            }, 500);
+            if (currentMessageIndex === messages.length - 1) {
+                nextButton.classList.add("hidden");
+                playButton.classList.remove("hidden");
+                setTimeout(() => {
+                    document.getElementById("special-message").style.display = 'block';
+                    closeButton.classList.remove("hidden");
+                }, 500);
+            }
         }
-    }
-});
+    });
 
-playButton.addEventListener("click", () => {
-    // Add logic here if needed for playButton functionality
-});
+    playButton.addEventListener("click", () => {
+        // Add logic here if needed for playButton functionality
+    });
 
-closeButton.addEventListener("click", () => {
-    document.getElementById("special-message").style.display = 'none';
-    closeButton.classList.add("hidden");
-    clickButton.classList.remove("hidden");
-});
+    closeButton.addEventListener("click", () => {
+        document.getElementById("special-message").style.display = 'none';
+        closeButton.classList.add("hidden");
+        clickButton.classList.remove("hidden");
+    });
 
-clickButton.addEventListener("click", () => {
-    treeContainer.style.display = 'block';  // Show tree when clickButton is clicked
-    finalMessage.style.display = 'block';  // Show final message if needed
-    clickButton.classList.add("hidden");  // Hide the click button once clicked
-});
+    clickButton.addEventListener("click", () => {
+        treeContainer.style.display = 'block';  // Show tree when clickButton is clicked
+        finalMessage.style.display = 'block';  // Show final message if needed
+        clickButton.classList.add("hidden");  // Hide the click button once clicked
+    });
 
-// Show the "Click Me" button after the special message is closed
-setTimeout(() => {
-    thankYouContainer.classList.remove("hidden");
-}, 1500);  // Wait 1.5 seconds after closing the special message
+    // Show the "Click Me" button after the special message is closed
+    setTimeout(() => {
+        thankYouContainer.classList.remove("hidden");
+    }, 1500);  // Wait 1.5 seconds after closing the special message
 
-clickHeartBtn.addEventListener("click", () => {
-    thankYouMessage.classList.remove("hidden");
-    clickHeartBtn.classList.add("hidden");
-});
+    clickHeartBtn.addEventListener("click", () => {
+        thankYouMessage.classList.remove("hidden");
+        clickHeartBtn.classList.add("hidden");
+    });
 
-// Snow effect (same as before)
+    // Snow effect (same as before)
 (function snow() {
     const canvas = document.querySelector('.snow');
     const ctx = canvas.getContext('2d');
@@ -391,7 +411,7 @@ clickHeartBtn.addEventListener("click", () => {
 
     animate();
 })();
-
 </script>
+
 </body>
 </html>
